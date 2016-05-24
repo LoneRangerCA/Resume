@@ -1,3 +1,5 @@
+//'use strict';
+
 var bio = {
     name: "Roger Grossman",
     role: "Front End Web Developer",
@@ -32,16 +34,16 @@ bio.display = function() {
     $("#header").prepend(pictureURL);
     $("#header").prepend(role);
     $("#header").prepend(bioname);
-
-    $("#topContacts").prepend(welcome);
-    $("#topContacts").prepend(biolocation);
-    $("#topContacts").prepend(github);
-    $("#topContacts").prepend(email);
-    $("#topContacts").prepend(mobile);
+    
+    $('#topContacts, #footerContacts').prepend(welcome);
+    $('#topContacts, #footerContacts').prepend(biolocation);
+    $('#topContacts, #footerContacts').prepend(github);
+    $('#topContacts, #footerContacts').prepend(email);
+    $('#topContacts, #footerContacts').prepend(mobile);
 
     if (bio.skills) {
         $("#header").append(HTMLskillsStart);
-        for (i = 0; i < bio.skills.length; i++) {
+        for (var i = 0; i < bio.skills.length; i++) {
             var formattedSkill = HTMLskills.replace("%data%", bio.skills[i]);
             $("#skills-h3").append(formattedSkill);
         }
@@ -57,15 +59,20 @@ var education = {
         name: "Mercy College",
         location: "Dobbs Ferry, NY",
         degree: "Masters with distinction",
-        majors: "Marriage and Family Therapy",
+    majors: [
+        "Marriage and Family Therapy"
+    ],
         dates: "2008 to 2010",
         url: "www.mercy.edu",
     }, {
         name: "New York University",
         location: "New York, NY",
         degree: "BA",
-        majors: "Philosophy",
-        dates: "",
+    majors: [
+        "Philosophy",
+        "Computer Science"
+    ],
+        dates: "1973-1976",
         url: "www.nyu.edu",
     }],
     OnlineCourses: [{
@@ -81,13 +88,21 @@ education.display = function() {
     while (education.schools[schoolidx]) {
         var FormattedschoolName = HTMLschoolName.replace("%data%", education.schools[schoolidx].name);
         var FormattedschoolLocation = HTMLschoolLocation.replace("%data%", education.schools[schoolidx].location);
-        var FormattedschoolMajor = HTMLschoolMajor.replace("%data%", education.schools[schoolidx].majors);
         var FormattedschoolDegree = HTMLschoolDegree.replace("%data%", education.schools[schoolidx].degree);
         var FormattedschoolDates = HTMLschoolDates.replace("%data%", education.schools[schoolidx].dates);
+
+    if (education.schools[schoolidx].majors) {
+        for (var i = 0; i < education.schools[schoolidx].majors.length; i++) {
+          var FormattedschoolMajor = HTMLschoolMajor.replace("%data%", education.schools[i].majors);
+          $("#education-entry").append(FormattedschoolMajor);
+        }
 
         $("#education").append(HTMLschoolStart);
         var FormattedSchoolEntry = "<br>" + FormattedschoolName + FormattedschoolLocation + FormattedschoolMajor + FormattedschoolDegree + FormattedschoolDates;
         $(".education-entry:last").append(FormattedSchoolEntry);
+        
+    }
+        
         schoolidx = schoolidx + 1;
     }
 
@@ -149,12 +164,16 @@ var projects = {
         title: "Portfolio",
         dates: "04/2016 to 05/2016",
         description: "Build a framework to demonstrate project portfolio",
-        images: "https://cdn.projectsmart.co.uk/img/project-portfolio.png"
+        images: [
+        "https://cdn.projectsmart.co.uk/img/project-portfolio.png"
+        ]
     }, {
         title: "Resume",
         dates: "05/2016 to 05/2016",
         description: "Create an online resume",
-        images: "http://catchingreality.com/wp-content/uploads/2015/10/free-resume-template-download-uf9hlkw4.png"
+        images: [
+        "http://catchingreality.com/wp-content/uploads/2015/10/free-resume-template-download-uf9hlkw4.png"
+        ]
     }]
 };
 
